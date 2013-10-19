@@ -525,7 +525,7 @@ public class MidiPlayerGUI extends JPanel implements MidiPlayerListener,
 
 			int rowNumber = (t * 2) + 1;
 
-			trackControlPanel.add(new JLabel(track.getDescription()), "1, "
+			trackControlPanel.add(new JLabel(track.toString()), "1, "
 					+ rowNumber);
 			trackControlPanel.add(soloTrackButton, "3, " + rowNumber);
 			trackControlPanel.add(muteTrackButton, "5, " + rowNumber);

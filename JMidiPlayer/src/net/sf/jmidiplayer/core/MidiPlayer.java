@@ -169,6 +169,10 @@ public class MidiPlayer {
 						byte[] abData = metaMessage.getData();
 						// int nDataLength = metaMessage.getLength();
 						switch (metaMessage.getType()) {
+						case 0x03:
+							// Name
+							track.setName(new String(abData));
+							break;
 						case 0x58:
 							// Time signature can be thought as a fraction: 4/4,
 							// 3/4 and so on
@@ -197,7 +201,7 @@ public class MidiPlayer {
 							for (Instrument instrument : synthesizer
 									.getAvailableInstruments())
 								if (instrument.getPatch().getProgram() == program) {
-									track.setDescription(instrument.getName());
+									track.setInstrument(instrument.getName());
 									break;
 								}
 						}
@@ -206,9 +210,8 @@ public class MidiPlayer {
 				if (track.channel != Track.CHANNEL_UNDEFINED) {
 					tracks.add(track);
 					if (track.channel == 9)
-						track.setDescription("Percussion");
-					Log.write("Track " + track.getNumber() + ": "
-							+ track.getDescription());
+						track.setInstrument("Percussion");
+					Log.write("Track " + track.getNumber() + ": " + track);
 				} else {
 					Log.write("Track "
 							+ track.getNumber()

@@ -24,15 +24,17 @@ public class Track {
 	/* Initial values */
 
 	protected static final int CHANNEL_UNDEFINED = -1;
-	private static final String DESCRIPTION_UNDEFINED = "Undefined";
+	private static final String INSTRUMENT_UNKNOWN = "Unknown";
+	private static final String NAME_UNDEFINED = "Undefined";
 
 	/* Attributes */
 
 	protected int channel;
-	private String description;
+	private String instrument;
 	private List<TrackListener> listeners;
 	protected javax.sound.midi.Track midiTrack;
 	private boolean mute;
+	private String name;
 	private int number;
 	private MidiPlayer midiPlayer;
 	private boolean solo;
@@ -54,10 +56,11 @@ public class Track {
 	 */
 	Track(int number, javax.sound.midi.Track midiTrack, MidiPlayer midiPlayer) {
 		channel = CHANNEL_UNDEFINED;
-		description = DESCRIPTION_UNDEFINED;
+		instrument = INSTRUMENT_UNKNOWN;
 		listeners = new ArrayList<TrackListener>();
 		this.midiTrack = midiTrack;
 		mute = midiPlayer.sequencer.getTrackMute(number);
+		name = NAME_UNDEFINED;
 		this.number = number;
 		this.midiPlayer = midiPlayer;
 		solo = midiPlayer.sequencer.getTrackSolo(number);
@@ -78,14 +81,25 @@ public class Track {
 	}
 
 	/**
-	 * Returns a <code>String</code> that describes the track.
+	 * Returns a <code>String</code> with the track's instrument name.
 	 * 
-	 * @return the track's description
+	 * @return the track's instrument name
 	 * 
-	 * @see #setDescription(String)
+	 * @see #setInstrument(String)
 	 */
-	public String getDescription() {
-		return description;
+	public String getInstrument() {
+		return instrument;
+	}
+	
+	/**
+	 * Returns a <code>String</code> that names the track.
+	 * 
+	 * @return the track's name
+	 * 
+	 * @see #setName(String)
+	 */
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -147,15 +161,27 @@ public class Track {
 	}
 
 	/**
-	 * Sets the track's description.
+	 * Sets the track's instrument name.
 	 * 
-	 * @param description
-	 *            the new track's description
+	 * @param instrument
+	 *            the new track's instrument name
 	 * 
-	 * @see #getDescription()
+	 * @see #getInstrument()
 	 */
-	public void setDescription(String description) {
-		this.description = description.trim();
+	public void setInstrument(String instrument) {
+		this.instrument = instrument.trim();
+	}
+	
+	/**
+	 * Sets the track's name.
+	 * 
+	 * @param name
+	 *            the new track's name
+	 * 
+	 * @see #getName()
+	 */
+	public void setName(String name) {
+		this.name = name.trim();
 	}
 
 	/**
@@ -249,7 +275,10 @@ public class Track {
 
 	@Override
 	public String toString() {
-		return description;
+		if (!name.equals(NAME_UNDEFINED))
+			return name;
+		else
+			return instrument;
 	}
 
 }
